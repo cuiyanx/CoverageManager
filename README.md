@@ -1,7 +1,12 @@
 # CoverageManager
 This is unit test coverage report manager.
 
-## Prerequisites
+## Step to run
+
+### Prerequisites
+
+Edit `webpack.config.js` and `test/index.html` and `package.json` files in the webml-pollyfill object.
+
 * Open `webpack.config.js` file in the webml-pollyfill object:
 
     Change:
@@ -45,25 +50,29 @@ This is unit test coverage report manager.
 
       "babel-plugin-istanbul": "^5.1.0"
 
-    into `devDependencies`.
+    into `devDependencies`
 
-## Install
+* Build and start the webml-pollyfill object.
+
+### Install dependency package for CoverageManager
+
 ```sh
-   $ npm install
+$ npm install
 ```
 
-## Start
+### Start CoverageManager sever
 
 ```sh
 $ npm start
 ```
 
-## Step to run
-* Edit `webpack.config.js` and `test/index.html` and `package.json` files in the webml-pollyfill object;
-* Build and start the webml-pollyfill object;
-* Start CoverageManager sever;
-* Open test page in the `chrome` or `chromium` with backend `wasm` or `webgl`;
-* Open `http://localhost:8888/` in the `chrome` or `chromium` to check your unit test coverage report.
+### Run test page
+
+Open test page in the `chrome` or `chromium` with backend `wasm` or `webgl`.
+
+### Check report
+
+Open `http://localhost:8888/` in the `chrome` or `chromium` to check your unit test coverage report.
 
 ## Report
 **Path**: `object/coverage`
