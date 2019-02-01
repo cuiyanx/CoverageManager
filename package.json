@@ -1,0 +1,25 @@
+{
+  "name": "coveragemanager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/coverage-server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cuiyanx/CoverageManager.git"
+  },
+  "author": "cuiyanx@intel.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cuiyanx/CoverageManager/issues"
+  },
+  "homepage": "https://github.com/cuiyanx/CoverageManager#readme",
+  "devDependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "istanbul": "^0.4.5"
+  }
+}
