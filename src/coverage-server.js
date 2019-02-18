@@ -6,8 +6,6 @@ var fs = require("fs");
 var url = require("url");
 var bodyParser = require("body-parser");
 
-var reporter = new istanbul.Reporter();
-var collector = new istanbul.Collector();
 var isCoverageEnabled = true;
 var app = express();
 var port = 8888;
@@ -50,6 +48,9 @@ app.post("/json", function (req, res) {
     if (req.get("Content-Type") !== "application/json") {
         return res.status(400).send("Please post an object with content-type: application/json");
     } else {
+        var reporter = new istanbul.Reporter();
+        var collector = new istanbul.Collector();
+
         collector.add(req.body);
         reporter.add("text");
         reporter.addAll(["lcov", "clover", "json"]);
