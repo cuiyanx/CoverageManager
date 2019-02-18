@@ -28,6 +28,24 @@ if (!fs.existsSync(reportTreePath)) {
     fs.mkdirSync(reportTreePath);
 }
 
+var delDir = function (targetPath) {
+    let files = [];
+
+    if (fs.existsSync(targetPath)) {
+        files = fs.readdirSync(targetPath);
+
+        files.forEach((file, index) => {
+            let curPath = path.resolve(targetPath, files);
+
+            if (fs.statSync(curPath).isDirectory()) {
+                delDir(curPath);
+            } else {
+                fs.unlinkSync(curPath);
+            }
+        });
+    }
+}
+
 app.engine("html", ejs.__express);
 app.set("view engine", "html");
 
@@ -48,6 +66,8 @@ app.post("/json", function (req, res) {
     if (req.get("Content-Type") !== "application/json") {
         return res.status(400).send("Please post an object with content-type: application/json");
     } else {
+        delDir("./coverage");
+
         var reporter = new istanbul.Reporter();
         var collector = new istanbul.Collector();
 
