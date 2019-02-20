@@ -6,7 +6,6 @@ var fs = require("fs");
 var url = require("url");
 var bodyParser = require("body-parser");
 
-var isCoverageEnabled = true;
 var app = express();
 var port = 8888;
 var fileSizeMaximum = "100mb";
@@ -20,29 +19,33 @@ var jsonOptions = {limit: fileSizeMaximum};
 app.use(bodyParser.urlencoded(urlOptions));
 app.use(bodyParser.json(jsonOptions));
 
-var rootPath = path.resolve(__dirname, "..");
-var reportTreePath = path.resolve(rootPath, "report-tree");
+//var rootPath = path.resolve(__dirname, "..");
+//var reportTreePath = path.resolve(rootPath, "report-tree");
 //var coveragePath = path.resolve(rootPath, "report");
 //var JSONPath = path.resolve(reportTreePath, "wasm", "report.json");
-if (!fs.existsSync(reportTreePath)) {
-    fs.mkdirSync(reportTreePath);
-}
+//if (!fs.existsSync(reportTreePath)) {
+//    fs.mkdirSync(reportTreePath);
+//}
 
-var delDir = function (targetPath) {
+var deleteDir = function (targetPath, flag) {
     let files = [];
 
     if (fs.existsSync(targetPath)) {
         files = fs.readdirSync(targetPath);
 
         files.forEach((file, index) => {
-            let curPath = path.resolve(targetPath, files);
+            let curPath = path.resolve(targetPath, file);
 
             if (fs.statSync(curPath).isDirectory()) {
-                delDir(curPath);
+                deleteDir(curPath, true);
             } else {
                 fs.unlinkSync(curPath);
             }
         });
+    }
+
+    if (flag) {
+        fs.rmdirSync(targetPath);
     }
 }
 
@@ -66,7 +69,7 @@ app.post("/json", function (req, res) {
     if (req.get("Content-Type") !== "application/json") {
         return res.status(400).send("Please post an object with content-type: application/json");
     } else {
-        delDir("./coverage");
+        deleteDir("./coverage", false);
 
         var reporter = new istanbul.Reporter();
         var collector = new istanbul.Collector();
@@ -74,8 +77,11 @@ app.post("/json", function (req, res) {
         collector.add(req.body);
         reporter.add("text");
         reporter.addAll(["lcov", "clover", "json"]);
-        reporter.write(collector, false, function() {
+        reporter.write(collector, true, function() {
             console.log("All reports generated");
+
+//            let curJSON = JSON.parse(fs.readFileSync(path.resolve(rootPath, "coverage", "coverage-final.json")));
+//            fs.writeFileSync(path.resolve(reportTreePath, "report.json"), JSON.stringify(curJSON, null, 4));
         });
 
         res.json({ok: true});
