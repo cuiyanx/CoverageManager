@@ -5,9 +5,9 @@ This is unit test coverage report manager.
 
 ### Prerequisites
 
-Edit `webpack.config.js` and `package.json` files in the webml-pollyfill object.
+Edit `webpack.config.js` and `package.json` files in the [webml-pollyfill](https://github.com/intel/webml-polyfill) object.
 
-* Open `webpack.config.js` file in the webml-pollyfill object:
+* Open `webpack.config.js` file:
 
     Change:
 
@@ -17,7 +17,7 @@ Edit `webpack.config.js` and `package.json` files in the webml-pollyfill object.
 
         module: {rules: [{test: /\.js$/, use: {loader: 'babel-loader', options: {plugins: ['istanbul']}}, exclude: /node_modules/}]}
 
-* Open `package.json` file in the webml-pollyfill object:
+* Open `package.json` file:
 
     Add:
 
@@ -25,7 +25,7 @@ Edit `webpack.config.js` and `package.json` files in the webml-pollyfill object.
 
     into `devDependencies`
 
-* Build and start the webml-pollyfill object.
+* Build and start the [webml-pollyfill](https://github.com/intel/webml-polyfill) object.
 
 ### Install dependency package for CoverageManager
 
@@ -37,9 +37,9 @@ $ npm install
 
 There are three fields in the `config.json`:
 
-   + **_webmlVersion_**: `{string}`, the version of webml-polyfill object
-   + **_remoteURL_**: `{string}`, remote test URL.
-   + **_browser_**: `{string}`, run test page
+   + **_webmlpolyfillCommit_**: `{string}`, the commit number of [webml-pollyfill](https://github.com/intel/webml-polyfill) object.
+   + **_remoteURL_**: `{string}`, remote test URL or local URL `http://localhost:8080/test/index.html`.
+   + **_browser_**: `{string}`, the browser to run unit test page and get coverage report.
 
 ### Start CoverageManager
 
@@ -49,8 +49,8 @@ $ npm start
 
 ## Report
 
-   + **General report**: `./coverage`
-   + **Detailed report**: `./report-tree`
+   + **General report**: `./coverage`  display current test coverage reports.
+   + **Detailed report**: `./report-tree`  display the history of test coverage reports.
 
 ## Support Platforms
 

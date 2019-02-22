@@ -1,5 +1,5 @@
 {
-    "webmlVersion": "d67757271",
+    "webmlpolyfillCommit": "d677572",
     "remoteURL": "http://localhost:8080/test/index.html",
     "browser": "/usr/bin/google-chrome"
 }

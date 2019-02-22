@@ -10,7 +10,7 @@ require("chromedriver");
 var rootPath = path.resolve(__dirname, "..");
 
 var configCM = JSON.parse(fs.readFileSync(path.resolve(rootPath, "config.json")));
-var webmlVersion = configCM.webmlVersion;
+var webmlpolyfillCommit = configCM.webmlpolyfillCommit;
 var remoteURL = configCM.remoteURL;
 var browser = configCM.browser;
 
@@ -24,7 +24,7 @@ excludeFiles.push("nn_ops.js");
 var arrayJSON = new Array();
 
 var reportTreePath = path.resolve(rootPath, "report-tree");
-var reportPathVersion = path.resolve(reportTreePath, webmlVersion);
+var reportPathVersion = path.resolve(reportTreePath, webmlpolyfillCommit);
 var reportPathAll = path.resolve(reportPathVersion, "all");
 var reportPathShow = path.resolve(rootPath, "coverage");
 
