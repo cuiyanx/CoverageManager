@@ -18,6 +18,9 @@ var testBackend = new Array();
 testBackend.push("wasm");
 testBackend.push("webgl");
 
+var excludeFiles = new Array();
+excludeFiles.push("nn_ops.js");
+
 var arrayJSON = new Array();
 
 var reportTreePath = path.resolve(rootPath, "report-tree");
@@ -67,6 +70,21 @@ var deleteDir = function (targetPath, flag) {
     if (flag) {
         fs.rmdirSync(targetPath);
     }
+}
+
+var excludeHandler = function (sourceJSON) {
+    for (let key of Object.keys(sourceJSON)) {
+        let fileName = path.basename(key);
+
+        for (let file of excludeFiles) {
+            if (fileName == file) {
+                console.log("exclude file: " + key);
+                delete sourceJSON[key];
+            }
+        }
+    }
+
+    return sourceJSON;
 }
 
 var integrationJSON = function (arrayJSON) {
@@ -181,7 +199,8 @@ var driver, chromeOption, testURL;
                     arrayJSON.push(json);
 
                     // Generate coverage test repoert with backend
-                    generateReport(json, path.resolve(reportPathVersion, backend), false);
+                    let jsonTemp = excludeHandler(json);
+                    generateReport(jsonTemp, path.resolve(reportPathVersion, backend), false);
                 } else {
                     throw new Error("'window.__coverage__' is undefined");
                 }
@@ -209,5 +228,6 @@ var driver, chromeOption, testURL;
 })().then(function() {
     console.log("coverage report is completed");
 }).catch(function(err) {
+    driver.quit();
     console.log(err);
 });
