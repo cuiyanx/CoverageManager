@@ -228,6 +228,8 @@ var driver, chromeOption, testURL;
 })().then(function() {
     console.log("coverage report is completed");
 }).catch(function(err) {
-    driver.quit();
     console.log(err);
+
+    driver.quit();
+    process.exit(1);
 });
