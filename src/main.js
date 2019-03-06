@@ -19,7 +19,7 @@ testBackend.push("wasm");
 testBackend.push("webgl");
 
 var excludeFiles = new Array();
-excludeFiles.push("nn_ops.js");
+excludeFiles.push("/src/nn/wasm/nn_ops.js");
 
 var arrayJSON = new Array();
 
@@ -73,18 +73,25 @@ var deleteDir = function (targetPath, flag) {
 }
 
 var excludeHandler = function (sourceJSON) {
-    for (let key of Object.keys(sourceJSON)) {
-        let fileName = path.basename(key);
+    let tmpJSON = new Object();
+
+    for (let [key, value] of Object.entries(sourceJSON)) {
+        let flag = false;
 
         for (let file of excludeFiles) {
-            if (fileName == file) {
-                console.log("exclude file: " + key);
-                delete sourceJSON[key];
+            if (key.search(file) !== -1) {
+                flag = true;
             }
+        }
+
+        if (flag) {
+            console.log("exclude file: " + key);
+        } else {
+            tmpJSON[key] = value;
         }
     }
 
-    return sourceJSON;
+    return tmpJSON;
 }
 
 var integrationJSON = function (arrayJSON) {
@@ -196,10 +203,9 @@ var driver, chromeOption, testURL;
 
             await driver.executeScript("return window.__coverage__;").then(function(json) {
                 if (json !== null) {
-                    arrayJSON.push(json);
-
                     // Generate coverage test repoert with backend
                     let jsonTemp = excludeHandler(json);
+                    arrayJSON.push(jsonTemp);
                     generateReport(jsonTemp, path.resolve(reportPathVersion, backend), false);
                 } else {
                     throw new Error("'window.__coverage__' is undefined");
